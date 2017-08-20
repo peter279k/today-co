@@ -2,6 +2,9 @@
 
 use Symfony\Component\Debug\Debug;
 
+// Setting the timezone is to fix the date_timezone_get warning messsage.
+date_default_timezone_set('Asia/Taipei');
+
 // This check prevents access to debug front controllers that are deployed by accident to production servers.
 // Feel free to remove this, extend it, or make something more sophisticated.
 if (isset($_SERVER['HTTP_CLIENT_IP'])
