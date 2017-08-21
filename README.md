@@ -16,6 +16,7 @@
 ## Database Schema
 
 Table1: subscribers
+
 | filed nmae | field type(length) | comment                  | auto_increment? |
 | -----------|--------------------|--------------------------|-----------------|
 | id         | int(10)            | the user email address id| yes |
