@@ -29,4 +29,4 @@ Table2: porn_videos
 | -----------|--------------------|--------------------------|-----------------|
 | id         | int(10)            | the video id                     | yes |
 | source     | varchar(10)        | the video source(xvideo/Avgle)   | no  |
-| create_date| date(yyyy-mm-dd)   | the video create date            | no  |
+| create_date| date(yyyy-mm-dd)   | the date of creating video       | no  |
