@@ -12,7 +12,6 @@ We listed the libraries and service we used.
 
 - [Python3](https://python.org)
 - [Mailjet](https://www.mailjet.com/) -- a sending newsletters service
-- [MailGun](https://www.mailgun.com/) -- a sending newsletters service
 - [MySQL](https://www.mysql.com/) -- our database
 
 # Installation
