@@ -1,0 +1,12 @@
+@import url(//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css);
+@import url(//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css);
+
+/*
+// From https://bootsnipp.com/snippets/featured/newsletter-subscribe
+//
+// Updated to boostrap 3 + Fontawesome 4
+//
+*/
+input.btn-primary {
+  margin-top: 15px;
+}

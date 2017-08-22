@@ -1,4 +1,5 @@
 {
     "git.ignoreLimitWarning": true,
-    "explorer.openEditors.visible": 0
+    "explorer.openEditors.visible": 0,
+    "python.linting.pylintEnabled": false
 }
