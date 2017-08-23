@@ -3,9 +3,8 @@
 
 import pymysql, sys, os
 import configparser
-from util import ConfigSectionMap
-
 sys.path.append(os.path.abspath(os.getcwd() + '/database'))
+from util import ConfigSectionMap
 
 
 def connect_mysql():
@@ -27,8 +26,8 @@ def close_connect():
 
 
 # input
-#    table      : table name
-#    value_dict : column name as key and inserted value as value
+# table      : table name
+# value_dict : column name as key and inserted value as value
 def insert_data(table, value_dict):
     with conn.cursor() as cur:
         str_column = ",".join(value_dict.keys())
@@ -50,14 +49,10 @@ def delete_data(table, del_dict):
         cur.execute('delete from '+table+' where '+del_str)
 
 # input
-#    table      : table name
-#    value_dict : column name as key and inserted value as value
+# table      : table name
+# value_dict : column name as key and inserted value as value
 def update_data(table, update_dict, condition_dict):
     with conn.cursor() as cur:
         update_str = ",".join([str(key+'='+str(value)) for key, value in update_dict.items()])
         cond_str = ",".join([str(key+'='+str(value)) for key, value in condition_dict.items()])
         cur.execute('update '+table+' set '+update_str+' where '+cond_str)
-
-
-
-
