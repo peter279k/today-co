@@ -7,19 +7,7 @@ Do not forget to update the sender address used in the sample
 
 from mailjet_rest import Client
 import configparser
-
-def ConfigSectionMap(section, Config):
-    dict1 = {}
-    options = Config.options(section)
-    for option in options:
-        try:
-            dict1[option] = Config.get(section, option)
-            if dict1[option] == -1:
-                print("skip: %s" % option)
-        except:
-            print("exception on %s!" % option)
-            dict1[option] = None
-    return dict1
+from util import ConfigSectionMap
 
 ## print the success or failure of your calls.
 def CheckStatusCode(result):
