@@ -11,8 +11,8 @@ from bs4 import BeautifulSoup
 import urllib.request
 import sys
 import os
-sys.path.append(os.path.abspath(os.getcwd()))
-from database import *
+sys.path.append(os.path.abspath(os.getcwd() + '/database'))
+from database_connect import *
 
 def fetch_view_number(video_url):
     soup = BeautifulSoup(urllib.request.urlopen(video_url).read(), "lxml")

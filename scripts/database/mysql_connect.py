@@ -9,7 +9,7 @@ def connect_mysql():
     Config = configparser.ConfigParser()
     Config.read("config.ini")
     ConfigMap = ConfigSectionMap("DB", Config)
-     
+
     m_host   = str(ConfigMap['host'])
     m_port   = int(ConfigMap['port'])
     m_user   = str(ConfigMap['user'])
@@ -29,10 +29,10 @@ def insert_data(table, value_dict):
 
 def select_data(table):
     print()
-    
+
 def delete_data():
     print()
-    
+
 def update_data():
     print()
 
@@ -46,7 +46,7 @@ insert_data('avgle.porn_videos', n)
 cur.execute("SELECT * FROM avgle.porn_videos ")
 for i in cur:
     print(i)
-    
+
 cur.close()
 conn.close()
 
