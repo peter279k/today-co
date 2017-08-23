@@ -1,9 +1,12 @@
 #!/usr/bin/env python
 # coding=utf-8
 
-import pymysql
+import pymysql, sys, os
 import configparser
-from mailjet import ConfigSectionMap
+from util import ConfigSectionMap
+
+sys.path.append(os.path.abspath(os.getcwd() + '/database'))
+
 
 def connect_mysql():
     Config = configparser.ConfigParser()
@@ -15,39 +18,46 @@ def connect_mysql():
     m_user   = str(ConfigMap['user'])
     m_passwd = str(ConfigMap['passwd'])
     m_db     = str(ConfigMap['db'])
-
-    return pymysql.connect(host=m_host, port=m_port, user=m_user, passwd=m_passwd, db=m_db, charset='UTF8')
+    
+    global conn
+    conn = pymysql.connect(host=m_host, port=m_port, user=m_user, passwd=m_passwd, db=m_db, charset='UTF8')
+    
+def close_connect():
+    conn.close()
+    
 
 # input
 #    table      : table name
 #    value_dict : column name as key and inserted value as value
 def insert_data(table, value_dict):
-    str_column = ",".join(value_dict.keys())
-    str_value = ",".join([str(s) for s in value_dict.values()])
-    cur.execute('insert into '+table+' ('+str_column+') value ('+str_value+')')
-#     'insert into avgle.porn_videos (source, view_numbers, view_ratings, create_date) value (\'test\', 123, 5, 20170823)'
+    with conn.cursor() as cur:
+        str_column = ",".join(value_dict.keys())
+        str_value = ",".join([str(s) for s in value_dict.values()])
+        cur.execute('insert into '+table+' ('+str_column+') value ('+str_value+')')
+        conn.commit()
+        print('insert done')
 
 def select_data(table):
-    print()
+    with conn.cursor() as cur:
+        cur.execute('select * from '+table)
+        print('select table : '+table)
+        for i in cur:
+            print(i)
     
-def delete_data():
-    print()
-    
-def update_data():
-    print()
+def delete_data(table, del_dict):
+    with conn.cursor() as cur:
+        del_str = ",".join([str(key+'='+str(value)) for key, value in del_dict.items()])
+        cur.execute('delete from '+table+' where '+del_str)
 
-#sample
-conn = connect_mysql()
-#cur must be a global value
-cur = conn.cursor()
-n = {'source':'123', 'view_numbers':5, 'view_ratings':5, 'create_date':'20170823'}
-insert_data('avgle.porn_videos', n)
+# input
+#    table      : table name
+#    value_dict : column name as key and inserted value as value
+def update_data(table, update_dict, condition_dict):
+    with conn.cursor() as cur:
+        update_str = ",".join([str(key+'='+str(value)) for key, value in update_dict.items()])
+        cond_str = ",".join([str(key+'='+str(value)) for key, value in condition_dict.items()])
+        cur.execute('update '+table+' set '+update_str+' where '+cond_str)
 
-cur.execute("SELECT * FROM avgle.porn_videos ")
-for i in cur:
-    print(i)
-    
-cur.close()
-conn.close()
+
 
 
