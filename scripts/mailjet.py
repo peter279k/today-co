@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# coding=utf-8
 """
 This call sends an email to one recipient, using a validated sender address
 Do not forget to update the sender address used in the sample
@@ -6,7 +8,7 @@ Do not forget to update the sender address used in the sample
 from mailjet_rest import Client
 import configparser
 
-def ConfigSectionMap(section):
+def ConfigSectionMap(section, Config):
     dict1 = {}
     options = Config.options(section)
     for option in options:
@@ -44,39 +46,41 @@ def CheckStatusCode(result):
     elif result.status_code == 500:
         print('Internal Server Error')
 
-
-Config = configparser.ConfigParser()
-Config.read("config.ini")
-
-api_key = ConfigSectionMap("MAILJET")['mj_apikey_public']
-api_secret = ConfigSectionMap("MAILJET")['mj_apikey_private']
-from_mail = ConfigSectionMap("MAILJET")['from-email-address']
-mail_title = 'Your email flight plan!2'
-from_name = 'TodayCo'
-content_text = 'Dear passenger, welcome to Mailjet! May the delivery force be with you!'
-content_html = '<h3>Dear passenger, welcome to Mailjet!</h3><br />May the delivery force be with you!'
-recipients = list()
-
-recipients.append({"Email": "email address2"})
-recipients.append({"Email": "email address1"})
-
-                
-print(api_key)
-print(api_secret)
-print(from_mail)
-print(recipients)
- 
-mailjet_test = Client(auth=(api_key, api_secret))
-data = {
-  'FromEmail': from_mail,
-  'FromName': from_name,
-  'Subject': mail_title,
-  'Text-part': content_text,
-  'Html-part': content_html,
-  'Recipients': recipients
-}
- 
-result = mailjet_test.send.create(data=data)
-CheckStatusCode(result)
+def sent_mail():
+    Config = configparser.ConfigParser()
+    Config.read("config.ini")
+    ConfigMap = ConfigSectionMap("MAILJET", Config)
+    
+    api_key = ConfigMap['mj_apikey_public']
+    api_secret = ConfigMap['mj_apikey_private']
+    from_mail = ConfigMap['from-email-address']
+    
+    mail_title = 'Your email flight plan!2'
+    from_name = 'TodayCo'
+    content_text = 'Dear passenger, welcome to Mailjet! May the delivery force be with you!'
+    content_html = '<h3>Dear passenger, welcome to Mailjet!</h3><br />May the delivery force be with you!'
+    recipients = list()
+    
+    recipients.append({"Email": "youmu257@gmail.com"})
+    recipients.append({"Email": "ragnro_456@yahoo.com.tw"})
+    
+                    
+    print(api_key)
+    print(api_secret)
+    print(from_mail)
+    print(recipients)
+     
+    mailjet_test = Client(auth=(api_key, api_secret))
+    data = {
+      'FromEmail': from_mail,
+      'FromName': from_name,
+      'Subject': mail_title,
+      'Text-part': content_text,
+      'Html-part': content_html,
+      'Recipients': recipients
+    }
+     
+    result = mailjet_test.send.create(data=data)
+    CheckStatusCode(result)
 
 
