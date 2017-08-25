@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding=utf-8
 
-import pymysql, sys, os
+import pymysql, sys, os, platform
 import configparser
 sys.path.append(os.path.abspath(os.getcwd() + '/database'))
 from util import ConfigSectionMap
@@ -9,8 +9,11 @@ from util import ConfigSectionMap
 
 def connect_mysql():
     Config = configparser.ConfigParser()
-	db_dir = os.path.dirname( os.path.realpath( __file__ ) )
-    Config.read(db_dir+"\config.ini")
+	db_dir = os.path.dirname(os.path.realpath( __file__ ))
+    if platform.system() == 'Linux':
+        Config.read(db_dir+"/config.ini")
+    else:
+        Config.read(db_dir+"\config.ini")
     ConfigMap = ConfigSectionMap("DB", Config)
 
     m_host   = str(ConfigMap['host'])
