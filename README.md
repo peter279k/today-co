@@ -104,4 +104,21 @@ We strongly recommend you using the [Phinx](https://phinx.org) to build the data
 
 The building guide is as follows:
 
-- 
+- Create the database named ```kaogun```.
+
+- Replace the user name and password ```phinx.yml``` in production section.
+
+Here is the sample settings are as follows:
+
+```bash
+production:
+    adapter: mysql
+    host: localhost
+    name: production_db
+    user: your_user_name
+    pass: your_password
+    port: 3306
+    charset: utf8
+```
+
+- In the VPS server, run the ```vendor/bin/phinx migrate -e development -t 20170822112955``` to initial the Databse table.
