@@ -26,7 +26,7 @@ class VideoMigration extends AbstractMigration
      * with the Table class.
      */
     private $tables = [
-        'subscribers', 'porn_videos'
+        'subscribers', 'porn_videos', 'sites_format'
     ];
 
     public function change()
@@ -59,7 +59,7 @@ class VideoMigration extends AbstractMigration
             ->addColumn('video_title', 'string', array('limit' => $length50, 'comment' => 'the video images title'))
             ->addColumn('create_date', 'date', array('comment' => 'the date of creating video'))
             ->create();
-        // sites_url
+        // sites_format
         $table = $this->table($this->table[2])
     }
 }

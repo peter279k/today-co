@@ -55,6 +55,17 @@ Table3: sites_format
 | video_url  | varchar(100)| www.xvideos.com/video{video_id}/{video_title}| no        |
 | video_images| varchar(100)| img-egc.xvideos.com/videos/thumbs/{1}/{2}/{3}/{uid}/{uid_img}| no |
 
+## The sites format rule
+
+In this section, we present the websites video and image url format.
+
+| source | image/video | format url                                                    |
+| -------|-------------|---------------------------------------------------------------|
+| avgle  | image       | static.avgle.com/media/videos/tmb2/vid/1.jpg                  |
+| avgle  | video       | avgle.com/video/vid/title                                     |
+| xvideo | image       | img-egc.xvideos.com/videos/thumbs/{1}/{2}/{3}/{uid}/{uid_img} |
+| xvideo | video       | www.xvideos.com/video{video_id}/{video_title}                 |
+
 ## Installation
 
 We have the two parts to build our awesome service.
