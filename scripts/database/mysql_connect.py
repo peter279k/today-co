@@ -10,7 +10,7 @@ from util import ConfigSectionMap
 def connect_mysql():
     Config = configparser.ConfigParser()
 	db_dir = os.path.dirname( os.path.realpath( __file__ ) )
-    Config.read("config.ini")
+    Config.read(db_dir+"\config.ini")
     ConfigMap = ConfigSectionMap("DB", Config)
 
     m_host   = str(ConfigMap['host'])
