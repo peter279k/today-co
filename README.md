@@ -29,20 +29,22 @@ Table1: subscribers
 
 | filed nmae | field type(length) | comment                  | auto_increment?  |
 | -----------|--------------------|--------------------------|----------------- |
-| id         | int(10)            | the user email address id                   | yes |
+| id         | int(10)primary key | the user email address id                   | yes |
 | email      | varchar(50)        | the user email address                      | no  |
 | verify     | boolean            | users whether has verified the email address| no  |
+| type       | varchar(6)         | subscribe video is weekly or daily          | no  |
 
 Table2: porn_videos
 
 | filed nmae  | field type(length) | comment                         | auto_increment? |
 | ------------|--------------------|---------------------------------|-----------------|
-| id          | int(10)            | the video id                    | no              |
-| source      | varchar(10)        | the video source(xvideo/Avgle)  | no              |
+| id          | int(10)primary key | the primary key id              | yes             |
+| source      | varchar(10)        | video source(xvideo/avgle...)   | no              |
 | view_numbers| int(10)            | the video view numbers          | no              |
 | video_url   | int(10)            | the video url                   | no              |
 | view_ratings| varchar(5)         | the video ratings               | no              |
 | video_images| varchar(5)         | the video images url            | no              |
+| video_title | varchar(5)         | the video images title          | no              |
 | create_date | date(yyyy-mm-dd)   | the date of creating video      | no              |
 
 ## Installation
