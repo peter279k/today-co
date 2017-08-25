@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python3
 # coding=utf-8
 
 import pymysql, sys, os, platform
@@ -8,7 +8,7 @@ from util import ConfigSectionMap
 
 def connect_mysql():
     Config = configparser.ConfigParser()
-	db_dir = os.path.dirname(os.path.realpath('__file__'))
+    db_dir = os.path.dirname(os.path.realpath('__file__'))
     if platform.system() == 'Linux':
         Config.read(db_dir+"/config.ini")
     else:

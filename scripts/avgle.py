@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python3
 # coding=utf-8
 
 import urllib.request
@@ -6,7 +6,7 @@ import json
 from util import UnixTime2DateString
 from database.mysql_connect import *
 
-def inserVideo2DB(videos):
+def insert_video_db(videos):
     new_video = dict()
     new_video['source'] = 'avgle'
     new_video['view_numbers'] = videos['viewnumber']
@@ -23,10 +23,10 @@ def inserVideo2DB(videos):
 # type         | null    | public, private
 # c (category) | null    | category id (integer)
 # limit        | 50      | [1, 250]
-def getAllVideo(search_type='mr', time='a', limit=50):
+def get_all_video(search_type='mr', time='a', limit=50):
     # initial connect
     connect_mysql()
-    
+
     AVGLE_LIST_VIDEOS_API_URL = 'https://api.avgle.com/v1/videos/{}?limit={}&o={}&t={}'
     page = 0
 
@@ -35,12 +35,14 @@ def getAllVideo(search_type='mr', time='a', limit=50):
         response = json.loads(urllib.request.urlopen(url).read().decode())
         if response['success']:
             for videos in response['response']['videos']:
-                inserVideo2DB(videos)
+                insert_video_db(videos)
         else:
             break
-        
+
         if response['response']['has_more']:
             page += 1
         else:
             break
     close_connect()
+
+get_all_video()
