@@ -59,12 +59,12 @@ Table3: sites_format
 
 In this section, we present the websites video and image url format.
 
-| source | image/video | format url                                                    |
-| -------|-------------|---------------------------------------------------------------|
-| avgle  | image       | static.avgle.com/media/videos/tmb2/vid/1.jpg                  |
-| avgle  | video       | avgle.com/video/vid/title                                     |
-| xvideo | image       | img-egc.xvideos.com/videos/thumbs/{1}/{2}/{3}/{uid}/{uid_img} |
-| xvideo | video       | www.xvideos.com/video{video_id}/{video_title}                 |
+| source | image/video| format url                                                     |
+| -------|------------|----------------------------------------------------------------|
+| avgle  | image      | static.avgle.com/media/videos/tmb2/{video_id}/{image_file_name}|
+| avgle  | video      | avgle.com/video/{video_id}/{video_title}                       |
+| xvideo | image      | img-egc.xvideos.com/videos/thumbs/{1}/{2}/{3}/{uid}/{uid_img}  |
+| xvideo | video      | www.xvideos.com/video{video_id}/{video_title}                  |
 
 ## Installation
 

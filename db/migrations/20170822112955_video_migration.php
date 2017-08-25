@@ -1,6 +1,7 @@
 <?php
 
 use Phinx\Migration\AbstractMigration;
+use Phinx\Db\Adapter\MysqlAdapter;
 
 class VideoMigration extends AbstractMigration
 {
@@ -39,27 +40,51 @@ class VideoMigration extends AbstractMigration
             }
         }
         $length10 = 10;
+        $length100 = 100;
         $length50 = 50;
         $length6 = 6;
+        // Phinx automatically creates an auto-incrementing primary key column called id for every table.
+
         // subscribers table
-        $table = $this->table($this->tables[0], array('comment' => '訂閱者資料表', 'id' => false, 'primary_key' => array('id')));
-        $table->addColumn('id', 'integer', array('limit' => MysqlAdapter::INT_MEDIUM, 'comment' => 'AUTO_INCREMENT'))
-            ->addColumn('email', 'string', array('limit' => $length50, 'comment' => '信箱'))
+        $table = $this->table($this->tables[0], array('comment' => '訂閱者資料表'));
+        $table->addColumn('email', 'string', array('limit' => $length50, 'comment' => '信箱'))
             ->addColumn('verify', 'boolean', array('comment' => 'users whether has verified the email address'))
             ->addColumn('type', 'string', array('limit' => $length6, 'comment' => 'subscribe video is weekly or daily'))
+            ->addIndex(array('email'), array('unique' => true))
             ->create();
 
         // porn_videos table
-        $table = $this->table($this->table[1], array('comment' => 'porn video table', 'id' => false, 'primary_key' => array('id')));
-        $table->addColumn('id', 'integer', array('limit' => MysqlAdapter::INT_MEDIUM, 'comment' => 'AUTO_INCREMENT'))
-            ->addColumn('source', 'string', array('limit' => $length10, 'comment' => 'xvideo/avgle...'))
+        $table = $this->table($this->tables[1], array('comment' => 'porn video table'));
+        $table->addColumn('source', 'string', array('limit' => $length10, 'comment' => 'xvideo/avgle...'))
             ->addColumn('view_numbers', 'string', array('limit' => $length10, 'comment' => ''))
             ->addColumn('video_id', 'string', array('limit' => $length50, 'comment' => 'xvideo/avgle...'))
             ->addColumn('view_ratings', 'string', array('limit' => $length10, 'comment' => 'the video ratings'))
             ->addColumn('video_title', 'string', array('limit' => $length50, 'comment' => 'the video images title'))
             ->addColumn('create_date', 'date', array('comment' => 'the date of creating video'))
+            ->addIndex(array('video_id'), array('unique' => true))
             ->create();
         // sites_format
-        $table = $this->table($this->table[2])
+        $table = $this->table($this->tables[2], array('comment' => 'sites format'));
+        $table->addColumn('source', 'string', array('limit' => $length10, 'comment' => 'video source(avgle/xvideo)'))
+            ->addColumn('video_url', 'string', array('limit' => $length100, 'comment' => 'www.xvideos.com/video{video_id}/{video_title}'))
+            ->addColumn('video_images', 'string', array('limit' => $length100, 'comment' => 'img-egc.xvideos.com/videos/thumbs/{1}/{2}/{3}/{uid}/{uid_img}'))
+            ->addIndex(array('video_url', 'video_images'), array('unique' => true))
+            ->create();
+        // insert the default sites format string
+        $rows = [
+            [
+              'source'  => 'avgle',
+              'video_url'  => 'avgle.com/video/{video_id}/{video_title}',
+              'video_images'  => 'static.avgle.com/media/videos/tmb2/{video_id}/{image_file_name}'
+            ],
+            [
+                'source'  => 'xvideo',
+                'video_url'  => 'www.xvideos.com/video{video_id}/{video_title}',
+                'video_images'  => 'img-egc.xvideos.com/videos/thumbs/{1}/{2}/{3}/{uid}/{uid_img}'
+            ]
+        ];
+        // this is a handy shortcut
+        $this->insert('sites_format', $rows);
+
     }
 }
