@@ -51,8 +51,8 @@ Table3: sites_format
 | filed nmae | field type(length) | comment                         | auto_increment? |
 | -----------|--------------------|---------------------------------|-----------------|
 | id         | int(10)            | the primary key id              | yes             |
-| source      | varchar(10)        | video source(xvideo/avgle...)   | no              |
-| video_url  | varchar(100)| www.xvideos.com/video{video_id}/{video_title}| no         |
+| source     | varchar(10)        | video source(xvideo/avgle...)   | no              |
+| video_url  | varchar(100)| www.xvideos.com/video{video_id}/{video_title}| no        |
 | video_images| varchar(100)| img-egc.xvideos.com/videos/thumbs/{1}/{2}/{3}/{uid}/{uid_img}| no |
 
 ## Installation
