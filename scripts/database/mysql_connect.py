@@ -47,13 +47,22 @@ def insert_data(table, value_dict, update=''):
         cur.execute( sql )
         conn.commit()
 
-
-def select_data(table):
+# get data from table, return list(dict)
+#  table : table name
+#  order : order by some column and sort DESC
+def select_data(table, order=''):
     with conn.cursor() as cur:
-        cur.execute('SELECT * FROM '+table)
-        print('SELECT TABLE : '+table)
-        for i in cur:
-            print(i)
+        sql = 'SELECT * FROM '+table
+        if len(order) > 0:
+            sql += ' ORDER BY '+toSQLString(order)+' DESC'
+            print(sql)
+        cur.execute(sql)
+        
+        results = list()
+        name = [x[0] for x in cur.description]
+        for row in cur:
+            results.append(dict(zip(name, row)))
+    return results
 
 # delete table by input condition
 #  table    : table name
