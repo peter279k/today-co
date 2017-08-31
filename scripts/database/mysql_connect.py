@@ -48,9 +48,28 @@ def insert_data(table, value_dict, update=''):
         conn.commit()
 
 # get data from table, return list(dict)
-#  table : table name
-#  order : order by some column and sort DESC
-def select_data(table, order=''):
+#  table     : table name
+#  condition : condition for where
+#  order     : order by some column and sort DESC
+def select_where(table, condition, order=''):
+    with conn.cursor() as cur:
+        where_str = ",".join([str(key+'='+toSQLString(value)) for key, value in condition.items()])
+        sql = 'SELECT * FROM '+table+' WHERE '+where_str
+        if len(order) > 0:
+            sql += ' ORDER BY '+toSQLString(order)+' DESC'
+            print(sql)
+        cur.execute(sql)
+        
+        results = list()
+        name = [x[0] for x in cur.description]
+        for row in cur:
+            results.append(dict(zip(name, row)))
+    return results
+
+# get data from table, return list(dict)
+#  table     : table name
+#  order     : order by some column and sort DESC
+def select_all(table, order=''):
     with conn.cursor() as cur:
         sql = 'SELECT * FROM '+table
         if len(order) > 0:
