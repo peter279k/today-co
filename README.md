@@ -22,6 +22,7 @@ If you want to build this web service for yourself, the requirements are as foll
 - Complete the PHP backend functionality(e.g. store unsubscribed/subscribed email address)
 - Verify the email address before storing them in the MySQL database
 - Build the Database Migration(Phinx)
+- Make the code clean and readability(coding style)
 
 ## Database Schema
 
