@@ -23,26 +23,57 @@ def insert_video_db(videos):
 # type         | null    | public, private
 # c (category) | null    | category id (integer)
 # limit        | 50      | [1, 250]
-def get_all_video(search_type='mr', time='a', limit=50):
+def getAllVideo(search_type='mr', time_type='a', limit=50):
     # initial connect
     connect_mysql()
-
+    
     AVGLE_LIST_VIDEOS_API_URL = 'https://api.avgle.com/v1/videos/{}?limit={}&o={}&t={}'
     page = 0
 
     while True:
-        url = AVGLE_LIST_VIDEOS_API_URL.format(page, limit, search_type, time)
-        response = json.loads(urllib.request.urlopen(url).read().decode())
+        url = AVGLE_LIST_VIDEOS_API_URL.format(page, limit, search_type, time_type)
+        try:
+            response = json.loads(urllib.request.urlopen(url).read().decode())
+        except Exception as e:
+            print('urlopen request error!\n', e)
+            break
+            
         if response['success']:
             for videos in response['response']['videos']:
-                insert_video_db(videos)
+                insertVideo2DB(videos)
         else:
-            break
-
+            print('response fail! ', response['error_message'])
+            time.sleep(60)
+            continue
+        time.sleep(0.5)
         if response['response']['has_more']:
             page += 1
         else:
             break
+    print('getAllVideo done!')
     close_connect()
 
-get_all_video()
+# only request one page result
+def getVideo(search_type='mv', time_type='t', limit=10):
+    # initial connect
+    connect_mysql()
+    
+    AVGLE_LIST_VIDEOS_API_URL = 'https://api.avgle.com/v1/videos/{}?limit={}&o={}&t={}'
+    url = AVGLE_LIST_VIDEOS_API_URL.format(0, limit, search_type, time_type)
+    
+    try:
+        response = json.loads(urllib.request.urlopen(url).read().decode())
+    except Exception as e:
+        print('urlopen request error!\n', e)
+
+    if response['success']:
+        for videos in response['response']['videos']:
+            insertVideo2DB(videos)
+    else:
+        print('response fail! ', response['error_message'])
+
+    print('getAllVideo done!')
+    close_connect()
+
+# getAllVideo(search_type='mv', time_type='w', limit=10)
+getVideo(search_type='mv', time_type='w', limit=10)
