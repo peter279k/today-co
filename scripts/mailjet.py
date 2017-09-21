@@ -34,37 +34,62 @@ def CheckStatusCode(result):
     elif result.status_code == 500:
         print('Internal Server Error')
 
-def sent_mail():
+def sentMail(recipients, contentText, contentHtml):
     Config = configparser.ConfigParser()
     Config.read("config.ini")
     ConfigMap = ConfigSectionMap("MAILJET", Config)
     
-    api_key = ConfigMap['mj_apikey_public']
-    api_secret = ConfigMap['mj_apikey_private']
-    from_mail = ConfigMap['from-email-address']
+    apiKey = ConfigMap['mj_apikey_public']
+    apiSecret = ConfigMap['mj_apikey_private']
+    fromMail = ConfigMap['from-email-address']
     
-    mail_title = 'Your email flight plan!2'
-    from_name = 'TodayCo'
-    content_text = 'Dear passenger, welcome to Mailjet! May the delivery force be with you!'
-    content_html = '<h3>Dear passenger, welcome to Mailjet!</h3><br />May the delivery force be with you!'
+    mailTitle = 'Your email flight plan!2'
+    fromName = 'TodayCo'
+
+     
+    mailjet_test = Client(auth=(apiKey, apiSecret))
+    data = {
+      'FromEmail': fromMail,
+      'FromName': fromName,
+      'Subject': mailTitle,
+      'Text-part': contentText,
+      'Html-part': contentHtml,
+      'Recipients': recipients
+    }
+     
+    result = mailjet_test.send.create(data=data)
+    CheckStatusCode(result)
+
+def sentMailTest():
+    Config = configparser.ConfigParser()
+    Config.read("config.ini")
+    ConfigMap = ConfigSectionMap("MAILJET", Config)
+    
+    apiKey = ConfigMap['mj_apikey_public']
+    apiSecret = ConfigMap['mj_apikey_private']
+    fromMail = ConfigMap['from-email-address']
+    
+    mailTitle = 'Your email flight plan!2'
+    fromName = 'TodayCo'
+    contentText = 'Dear passenger, welcome to Mailjet! May the delivery force be with you!'
+    contentHtml = '<h3>Dear passenger, welcome to Mailjet!</h3><br />May the delivery force be with you!'
     recipients = list()
     
     recipients.append({"Email": "youmu257@gmail.com"})
-    recipients.append({"Email": "ragnro_456@yahoo.com.tw"})
     
                     
-    print(api_key)
-    print(api_secret)
-    print(from_mail)
+    print(apiKey)
+    print(apiSecret)
+    print(fromMail)
     print(recipients)
      
-    mailjet_test = Client(auth=(api_key, api_secret))
+    mailjet_test = Client(auth=(apiKey, apiSecret))
     data = {
-      'FromEmail': from_mail,
-      'FromName': from_name,
-      'Subject': mail_title,
-      'Text-part': content_text,
-      'Html-part': content_html,
+      'FromEmail': fromMail,
+      'FromName': fromName,
+      'Subject': mailTitle,
+      'Text-part': contentText,
+      'Html-part': contentHtml,
       'Recipients': recipients
     }
      
@@ -72,3 +97,9 @@ def sent_mail():
     CheckStatusCode(result)
 
 
+recipients = list()
+recipients.append({"Email": "youmu257@gmail.com"})
+contentText = 'Dear passenger, welcome to Mailjet! May the delivery force be with you!'
+contentHtml = '<h3>Dear passenger, welcome to Mailjet!</h3><br />May the delivery force be with you!'
+#sentMail(recipients, contentText, contentHtml)
+sentMailTest()
