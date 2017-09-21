@@ -6,41 +6,41 @@ import configparser
 sys.path.append(os.path.abspath(os.getcwd() + '/database'))
 from util import ConfigSectionMap
 
-def connect_mysql():
+def connectMysql():
     Config = configparser.ConfigParser()
-    db_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+    dbDir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 
     if platform.system() == 'Linux':
-        Config.read(db_dir+"/config.ini")
+        Config.read(dbDir+"/config.ini")
     else:
-        Config.read(db_dir+"\config.ini")
+        Config.read(dbDir+"\config.ini")
     ConfigMap = ConfigSectionMap("DB", Config)
 
-    m_host   = str(ConfigMap['host'])
-    m_port   = int(ConfigMap['port'])
-    m_user   = str(ConfigMap['user'])
-    m_passwd = str(ConfigMap['passwd'])
-    m_db     = str(ConfigMap['db'])
+    mHost   = str(ConfigMap['host'])
+    mPort   = int(ConfigMap['port'])
+    mUser   = str(ConfigMap['user'])
+    mPasswd = str(ConfigMap['passwd'])
+    mDB     = str(ConfigMap['db'])
 
     global conn
-    conn = pymysql.connect(host=m_host, port=m_port, user=m_user, passwd=m_passwd, db=m_db, charset='UTF8')
+    conn = pymysql.connect(host=mHost, port=mPort, user=mUser, passwd=mPasswd, db=mDB, charset='UTF8')
 
-def close_connect():
+def closeConnect():
     conn.close()
 
 
 # insert data into table, ignore or update repeat data
 #  table       : table name
-#  value_dict  : column name as key and inserted value as value
+#  valueDict  : column name as key and inserted value as value
 #  update(str) : if update is not null, check duplicate key to update
 #                else insert and ignore duplicate
-def insert_data(table, value_dict, update=''):
+def insertData(table, valueDict, update=''):
     with conn.cursor() as cur:
-        str_column = ",".join(value_dict.keys())
-        str_value = ",".join([toSQLString(s) for s in value_dict.values()]) 
-        sql = 'INSERT INTO '+table+' ('+str_column+') VALUE ('+str_value+')'
+        strColumn = ",".join(valueDict.keys())
+        strValue = ",".join([toSQLString(s) for s in valueDict.values()]) 
+        sql = 'INSERT INTO '+table+' ('+strColumn+') VALUE ('+strValue+')'
         if len(update) > 0:
-            sql += 'ON DUPLICATE KEY UPDATE '+update+'='+toSQLString(value_dict[update])
+            sql += 'ON DUPLICATE KEY UPDATE '+update+'='+toSQLString(valueDict[update])
         else:
             sql = sql.replace('INSERT', 'INSERT IGNORE')
 
@@ -51,13 +51,13 @@ def insert_data(table, value_dict, update=''):
 #  table     : table name
 #  condition : condition for where
 #  order     : order by some column and sort DESC
-def select_where(table, condition, order=''):
+def selectWhere(table, condition, order=''):
     with conn.cursor() as cur:
-        where_str = ",".join([str(key+'='+toSQLString(value)) for key, value in condition.items()])
-        sql = 'SELECT * FROM '+table+' WHERE '+where_str
+        whereStr = ",".join([str(key+'='+toSQLString(value)) for key, value in condition.items()])
+        sql = 'SELECT * FROM '+table+' WHERE '+whereStr
         if len(order) > 0:
             sql += ' ORDER BY '+toSQLString(order)+' DESC'
-            print(sql)
+#             print(sql)
         cur.execute(sql)
         
         results = list()
@@ -69,7 +69,7 @@ def select_where(table, condition, order=''):
 # get data from table, return list(dict)
 #  table     : table name
 #  order     : order by some column and sort DESC
-def select_all(table, order=''):
+def selectAll(table, order=''):
     with conn.cursor() as cur:
         sql = 'SELECT * FROM '+table
         if len(order) > 0:
@@ -85,22 +85,22 @@ def select_all(table, order=''):
 
 # delete table by input condition
 #  table    : table name
-#  del_dict : condition set, ex : {'video_id':'79800'}
-def delete_data(table, del_dict):
+#  delDict : condition set, ex : {'videoId':'79800'}
+def deleteData(table, delDict):
     with conn.cursor() as cur:
-        del_str = ",".join([str(key+'='+toSQLString(value)) for key, value in del_dict.items()])
-        cur.execute('DELETE FROM '+table+' WHERE '+del_str)
+        delStr = ",".join([str(key+'='+toSQLString(value)) for key, value in delDict.items()])
+        cur.execute('DELETE FROM '+table+' WHERE '+delStr)
         conn.commit()
 
 # update table by specific condition, only for equal condition
 #  table          : table name
-#  value_dict     : the column need to update, ex : {'view_numbers':123}
-#  condition_dict : condition set, ex : {'video_id':'79800'}
-def update_data(table, update_dict, condition_dict):
+#  valueDict     : the column need to update, ex : {'viewNumbers':123}
+#  conditionDict : condition set, ex : {'videoId':'79800'}
+def updateData(table, updateDict, conditionDict):
     with conn.cursor() as cur:
-        update_str = ",".join([str(key+'='+toSQLString(value)) for key, value in update_dict.items()])
-        cond_str = ",".join([str(key+'='+toSQLString(value)) for key, value in condition_dict.items()])
-        cur.execute('UPDATE '+table+' SET '+update_str+' WHERE '+cond_str)
+        updateStr = ",".join([str(key+'='+toSQLString(value)) for key, value in updateDict.items()])
+        condStr = ",".join([str(key+'='+toSQLString(value)) for key, value in conditionDict.items()])
+        cur.execute('UPDATE '+table+' SET '+updateStr+' WHERE '+condStr)
         conn.commit()
 
 def toSQLString(s):
