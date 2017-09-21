@@ -26,7 +26,7 @@ def closeConnect():
 
 # insert data into table, ignore or update repeat data
 #  table       : table name
-#  value_dict  : column name as key and inserted value as value
+#  valueDict  : column name as key and inserted value as value
 #  update(str) : if update is not null, check duplicate key to update
 #                else insert and ignore duplicate
 def insertData(table, valueDict, update = ''):
@@ -52,7 +52,7 @@ def selectWhere(table, condition, order = ''):
         sql = 'SELECT * FROM '+table+' WHERE '+whereStr
         if len(order) > 0:
             sql += ' ORDER BY '+toSQLString(order)+' DESC'
-            print(sql)
+#             print(sql)
         cur.execute(sql)
 
         results = list()
@@ -64,7 +64,7 @@ def selectWhere(table, condition, order = ''):
 # get data from table, return list(dict)
 #  table     : table name
 #  order     : order by some column and sort DESC
-def select_all(table, order=''):
+def selectAll(table, order=''):
     with conn.cursor() as cur:
         sql = 'SELECT * FROM '+table
         if len(order) > 0:
@@ -80,8 +80,8 @@ def select_all(table, order=''):
 
 # delete table by input condition
 #  table    : table name
-#  del_dict : condition set, ex : {'video_id':'79800'}
-def delete_data(table, delDict):
+#  delDict : condition set, ex : {'videoId':'79800'}
+def deleteData(table, delDict):
     with conn.cursor() as cur:
         delStr = ",".join([str(key+'='+toSQLString(value)) for key, value in delDict.items()])
         cur.execute('DELETE FROM '+table+' WHERE '+delStr)
@@ -89,13 +89,13 @@ def delete_data(table, delDict):
 
 # update table by specific condition, only for equal condition
 #  table          : table name
-#  value_dict     : the column need to update, ex : {'view_numbers':123}
-#  condition_dict : condition set, ex : {'video_id':'79800'}
-def update_data(table, update_dict, condition_dict):
+#  valueDict     : the column need to update, ex : {'viewNumbers':123}
+#  conditionDict : condition set, ex : {'videoId':'79800'}
+def updateData(table, updateDict, conditionDict):
     with conn.cursor() as cur:
-        update_str = ",".join([str(key+'='+toSQLString(value)) for key, value in update_dict.items()])
-        cond_str = ",".join([str(key+'='+toSQLString(value)) for key, value in condition_dict.items()])
-        cur.execute('UPDATE '+table+' SET '+update_str+' WHERE '+cond_str)
+        updateStr = ",".join([str(key+'='+toSQLString(value)) for key, value in updateDict.items()])
+        condStr = ",".join([str(key+'='+toSQLString(value)) for key, value in conditionDict.items()])
+        cur.execute('UPDATE '+table+' SET '+updateStr+' WHERE '+condStr)
         conn.commit()
 
 def toSQLString(s):

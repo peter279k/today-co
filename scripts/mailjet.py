@@ -64,5 +64,9 @@ def sendMail():
       'Recipients': recipients
     }
 
-    result = mailjetTest.send.create(data=data)
-    checkStatusCode(result)
+recipients = list()
+recipients.append({"Email": "youmu257@gmail.com"})
+contentText = 'Dear passenger, welcome to Mailjet! May the delivery force be with you!'
+contentHtml = '<h3>Dear passenger, welcome to Mailjet!</h3><br />May the delivery force be with you!'
+#sentMail(recipients, contentText, contentHtml)
+sentMailTest()
