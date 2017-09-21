@@ -46,7 +46,8 @@ class VideoMigration extends AbstractMigration
         // Phinx automatically creates an auto-incrementing primary key column called id for every table.
 
         // subscribers table
-        $table = $this->table($this->tables[0], array('comment' => '訂閱者資料表'));
+        $tableName = 'subscribers';
+        $table = $this->table($tableName, array('comment' => '訂閱者資料表'));
         $table->addColumn('email', 'string', array('limit' => $length50, 'comment' => '信箱'))
             ->addColumn('verify', 'boolean', array('comment' => 'users whether has verified the email address'))
             ->addColumn('type', 'string', array('limit' => $length6, 'comment' => 'subscribe video is weekly or daily'))
@@ -54,7 +55,8 @@ class VideoMigration extends AbstractMigration
             ->create();
 
         // porn_videos table
-        $table = $this->table($this->tables[1], array('comment' => 'porn video table'));
+        $tableName = 'porn_videos';
+        $table = $this->table($tableName, array('comment' => 'porn video table'));
         $table->addColumn('source', 'string', array('limit' => $length10, 'comment' => 'xvideo/avgle...'))
             ->addColumn('view_numbers', 'integer', array('limit' => MysqlAdapter::INT_MEDIUM, 'comment' => ''))
             ->addColumn('video_id', 'string', array('limit' => $length50, 'comment' => 'xvideo/avgle...'))
