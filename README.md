@@ -8,10 +8,10 @@
 ## Requirements
 If you want to build this web service for yourself, the requirements are as follows:
 
-- A VPS hosting
+- A VPS hosting(The current OS is Ubuntu)
 - PHP 7
 - Python 3
-- Composer(the package manager of PHP)
+- Composer(The dependency package manager of PHP)
 - MySQL
 
 ## TO DO

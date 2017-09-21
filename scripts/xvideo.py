@@ -11,29 +11,33 @@ from bs4 import BeautifulSoup
 import urllib.request
 import sys
 import os
-from database.mysql_connect import *
+from database.mysqlConnect import *
 
-def fetch_view_number(video_url):
-    soup = BeautifulSoup(urllib.request.urlopen(video_url).read(), "lxml")
-    for strong_tag in soup.find_all('strong'):
-        if(strong_tag.get('id') == 'nb-views-number'):
-            return strong_tag.contents[0]
+def fetchViewNumber(videoUrl):
+    soup = BeautifulSoup(urllib.request.urlopen(videoUrl).read(), 'lxml')
+    viewNumber = 0
+    for strongTag in soup.find_all('strong'):
+        if(strongTag.get('id') == 'nb-views-number'):
+            viewNumber = int(strongTag.contents[0])
+            break
+
+    return viewNumber
 
 rss = feedparser.parse('http://www.xvideos.com/rss/rss.xml')
 
 for entries in rss.entries:
-    view_number = fetch_view_number(entries.link)
+    viewNumber = fetchViewNumber(entries.link)
     rating = entries.rate
-    video_id = entries.guid
-    video_title = entries.title
-    parsed_time = rss.channel.updated_parsed
-    date_string = '{}/{}/{}'
-    create_date = date_string.format(str(parsed_time.tm_year), str(parsed_time.tm_mon), str(parsed_time.tm_mday))
+    videoId = entries.guid
+    videoTitle = entries.title
+    parsedTime = rss.channel.updated_parsed
+    dateString = '{}/{}/{}'
+    createDate = dateString.format(str(parsedTime.tmYear), str(parsedTime.tmMon), str(parsedTime.tmMday))
     data = dict()
     data['source'] = 'xvideo'
-    data['view_numbers'] = str(view_number).replace(',', '')
-    data['video_id'] = video_id
+    data['view_numbers'] = str(viewNumber).replace(',', '')
+    data['video_id'] = videoId
     data['view_ratings'] = rating
-    data['video_title'] = video_title
-    data['create_date'] = create_date
-    insert_data('xvideo.porn_videos', data)
+    data['video_title'] = videoTitle
+    data['create_date'] = createDate
+    insertData('xvideo.porn_videos', data)

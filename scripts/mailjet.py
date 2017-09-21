@@ -10,65 +10,59 @@ import configparser
 from util import ConfigSectionMap
 
 ## print the success or failure of your calls.
-def CheckStatusCode(result):
-    if result.status_code == 200:
-        print('OK')
-    elif result.status_code == 201:
-        print('Created')
-    elif result.status_code == 204:
-        print('No Content')
-    elif result.status_code == 304:
-        print('Not Modified')
-    elif result.status_code == 400:
-        print('Bad Request')
-    elif result.status_code == 401:
-        print('Unauthorized')
-    elif result.status_code == 403:
-        print('Forbidden')
-    elif result.status_code == 404:
-        print('Not Found')
-    elif result.status_code == 405:
-        print('Method Not Allowed')
-    elif result.status_code == 429:
-        print('Too Many Requests')
-    elif result.status_code == 500:
-        print('Internal Server Error')
+def checkStatusCode(result):
+    statusCode = result.status_code
+    statusCodeDict = {
+        200: 'ok',
+        201: 'Created',
+        204: 'No Content',
+        304: 'Not Modified',
+        400: 'Bad Request',
+        401: 'Unauthorized',
+        403: 'Forbidden',
+        404: 'Not Found',
+        405: 'Method Not Allowed',
+        429: 'Too Many Requests',
+        500: 'Internal Server Error',
+    }
 
-def sent_mail():
-    Config = configparser.ConfigParser()
-    Config.read("config.ini")
-    ConfigMap = ConfigSectionMap("MAILJET", Config)
-    
-    api_key = ConfigMap['mj_apikey_public']
-    api_secret = ConfigMap['mj_apikey_private']
-    from_mail = ConfigMap['from-email-address']
-    
-    mail_title = 'Your email flight plan!2'
-    from_name = 'TodayCo'
-    content_text = 'Dear passenger, welcome to Mailjet! May the delivery force be with you!'
-    content_html = '<h3>Dear passenger, welcome to Mailjet!</h3><br />May the delivery force be with you!'
+    if statusCode in statusCodeDict:
+        print(statusCodeDict[statusCode])
+    else:
+        print('Unknown status code message')
+
+def sendMail():
+    config = configparser.ConfigParser()
+    config.read("config.ini")
+    configMap = ConfigSectionMap("MAILJET", config)
+
+    apiKey = configMap['mj_apikey_public']
+    apiSecret = configMap['mj_apikey_private']
+    fromMail = configMap['from_email_address']
+
+    mailTitle = 'Your email flight plan!2'
+    fromName = 'TodayCo'
+    contentText = 'Dear passenger, welcome to Mailjet! May the delivery force be with you!'
+    contentHtml = '<h3>Dear passenger, welcome to Mailjet!</h3><br />May the delivery force be with you!'
     recipients = list()
-    
+
     recipients.append({"Email": "youmu257@gmail.com"})
     recipients.append({"Email": "ragnro_456@yahoo.com.tw"})
-    
-                    
-    print(api_key)
-    print(api_secret)
-    print(from_mail)
+
+    print(apiKey)
+    print(apiSecret)
+    print(fromMail)
     print(recipients)
-     
-    mailjet_test = Client(auth=(api_key, api_secret))
+
+    mailjetTest = Client(auth = (apiKey, apiSecret))
     data = {
-      'FromEmail': from_mail,
-      'FromName': from_name,
-      'Subject': mail_title,
-      'Text-part': content_text,
-      'Html-part': content_html,
+      'FromEmail': fromMail,
+      'FromName': fromName,
+      'Subject': mailTitle,
+      'Text-part': contentText,
+      'Html-part': contentHtml,
       'Recipients': recipients
     }
-     
-    result = mailjet_test.send.create(data=data)
-    CheckStatusCode(result)
 
-
+    result = mailjetTest.send.create(data=data)
+    checkStatusCode(result)
