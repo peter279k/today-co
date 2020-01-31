@@ -3,7 +3,7 @@
 # Deprecated
 As you will see, this prepository has been inactive for about three years.
 
-The `Sielx` framework has been deprecated from Symfony team and @youmu257 doesn't have much available time to do collabrations for this repository.
+The `Sielx` framework has been deprecated from Symfony team and [@youmu257](https://github.com/youmu257) doesn't have much available time to do collabrations for this repository.
 
 I will stop updating on this repository and creating new project with modern/latest PHP frameworks to keep this contiuning developemnt :).
 
