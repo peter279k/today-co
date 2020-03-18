@@ -6,7 +6,7 @@ import json, time
 from util import UnixTime2DateString
 from Enum.avgleSearchType import AvgleSeachType
 from Enum.avgleTimeType import AvgleTimeType
-from database.mysql_connect import *
+from database.mysqlConnect import *
 
 def insertVideoDb(videos):
     newVideo = dict()
