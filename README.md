@@ -7,8 +7,6 @@ The `Sielx` framework has been deprecated from Symfony team.
 
 And glad that [@youmu257](https://github.com/youmu257) comes back to do this at his available time to do contributions for this repository.
 
-I will stop updating on this repository and creating new project with modern/latest PHP frameworks to keep this contiuning developemnt :).
-
 ## Introduction
 - This service will send the newsletters every week after subscribing the newsletter.
 
