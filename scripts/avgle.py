@@ -4,6 +4,8 @@
 import urllib.request
 import json, time
 from util import UnixTime2DateString
+from Enum.avgleSearchType import AvgleSeachType
+from Enum.avgleTimeType import AvgleTimeType
 from database.mysql_connect import *
 
 def insertVideoDb(videos):
@@ -24,17 +26,14 @@ def insertVideoDb(videos):
 # limit        | 50      | [1, 250]
 
 AVGLE_LIST_VIDEOS_API_URL = 'https://api.avgle.com/v1/videos/{}?limit={}&o={}&t={}'
-MOST_VIEWED = 'mv'
-TIME_TYPE_DAILY = 't'
-TIME_TYPE_WEEKLY = 'w'
 
 # request Avgle API with specified parameters
-def getVideo(searchType = MOST_VIEWED, timeType = TIME_TYPE_TODAY, limit = 10):
+def getVideo(searchType = AvgleSeachType.MostViewed, timeType = AvgleTimeType.TODAY, limit = 10):
     # initialize MySQL database connection
     connectMysql()
 
     global AVGLE_LIST_VIDEOS_API_URL
-    url = AVGLE_LIST_VIDEOS_API_URL.format(0, limit, searchType, timeType)
+    url = AVGLE_LIST_VIDEOS_API_URL.format(0, limit, searchType.name, timeType.name)
 
     try:
         response = json.loads(urllib.request.urlopen(url).read().decode())
@@ -53,7 +52,7 @@ def getVideo(searchType = MOST_VIEWED, timeType = TIME_TYPE_TODAY, limit = 10):
     closeConnect()
 
 # get the top 10 video infos(daily most_viewed)
-getVideo(searchType = MOST_VIEWED, timeType = TIME_TYPE_DAILY, limit=10)
+getVideo(searchType = AvgleSeachType.MostViewed, timeType = AvgleTimeType.TODAY, limit=10)
 
 # get the top 10 viedo infos(weekly most_viewed)
-getVideo(searchType = MOST_VIEWED, timeType = TIME_TYPE_WEEKLY, limit=10)
+getVideo(searchType = AvgleSeachType.MostViewed, timeType = AvgleTimeType.WEEK, limit=10)
