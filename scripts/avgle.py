@@ -4,7 +4,8 @@
 import urllib.request
 import json, time
 from util import UnixTime2DateString
-from Enum.avgle_parameter import *
+from Enum.avgleSearchType import AvgleSeachType
+from Enum.avgleTimeType import AvgleTimeType
 from database.mysql_connect import *
 
 def insertVideoDb(videos):
