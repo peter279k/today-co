@@ -3,20 +3,23 @@
 
 import urllib.request
 import json, time
-from util import UnixTime2DateString
+from util import unixTime2DateString
 from Enum.avgleSearchType import AvgleSeachType
 from Enum.avgleTimeType import AvgleTimeType
 from database.mysqlConnect import *
 
 def insertVideoDb(videos):
     newVideo = dict()
-    newVideo['source'] = 'avgle'
-    newVideo['view_numbers'] = videos['viewnumber']
-    newVideo['video_id']    = videos['vid']
-    newVideo['view_ratings'] = videos['framerate']
-    newVideo['video_title'] = videos['title']
-    newVideo['create_date']  = unixTime2DateString(videos['addtime'])
-    insertData('avgle.porn_videos', newVideo)
+    newVideo[pornVideo.source] = 'avgle'
+    newVideo[pornVideo.view_numbers] = videos['viewnumber']
+    newVideo[pornVideo.video_id] = videos['vid']
+    newVideo[pornVideo.view_ratings] = videos['framerate']
+    newVideo[pornVideo.video_title] = videos['title']
+    newVideo[pornVideo.create_date] = unixTime2DateString(videos['addtime'])
+
+    pornVideo.insert(newVideo)\
+        .on_conflict_ignore(True)\
+        .execute()
 
 # Parameter    | Default | Values
 # o (search)   | mr      | bw (Last viewed), mr (Latest), mv (Most viewed), tr (Top rated), tf (Most favoured), lg (Longest)
