@@ -1,13 +1,18 @@
 #!/usr/bin/python3
 # coding=utf-8
 
-import sys, os, inspect, configparser
+import sys
+import os
+import inspect
+import configparser
 from util import configSectionMap
 from peewee import *
 
 # read database config file
 config = configparser.ConfigParser()
-dbDir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+dbDir = os.path.dirname(
+    os.path.abspath(inspect.getfile(inspect.currentframe()))
+)
 config.read(dbDir + '/config.ini')
 
 ConfigMap = configSectionMap('DB', config)
@@ -17,13 +22,15 @@ mUser = str(ConfigMap['user'])
 mPasswd = str(ConfigMap['passwd'])
 mDb = str(ConfigMap['db'])
 
-conn = MySQLDatabase(mDb, host = mHost, port = mPort, user = mUser, passwd = mPasswd)
+conn = MySQLDatabase(mDb, host=mHost, port=mPort, user=mUser, passwd=mPasswd)
+
 
 class BaseModel(Model):
     class Meta:
         database = conn
 
-class pornVideo(BaseModel):
+
+class PornVideo(BaseModel):
     id = AutoField()
     source = CharField()
     view_numbers = IntegerField()
@@ -35,8 +42,10 @@ class pornVideo(BaseModel):
     class Meta:
         table_name = 'porn_videos'
 
+
 def connectMysql():
     conn.connect()
+
 
 def closeConnect():
     conn.close()
