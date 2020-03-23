@@ -13,6 +13,7 @@ import sys
 import os
 from database.mysqlConnect import *
 
+
 def fetchViewNumber(videoUrl):
     soup = BeautifulSoup(urllib.request.urlopen(videoUrl).read(), 'lxml')
     viewNumber = 0
@@ -23,6 +24,7 @@ def fetchViewNumber(videoUrl):
 
     return viewNumber
 
+
 rss = feedparser.parse('http://www.xvideos.com/rss/rss.xml')
 
 for entries in rss.entries:
@@ -32,7 +34,11 @@ for entries in rss.entries:
     videoTitle = entries.title
     parsedTime = rss.channel.updated_parsed
     dateString = '{}/{}/{}'
-    createDate = dateString.format(str(parsedTime.tmYear), str(parsedTime.tmMon), str(parsedTime.tmMday))
+    createDate = dateString.format(
+        str(parsedTime.tmYear),
+        str(parsedTime.tmMon),
+        str(parsedTime.tmMday)
+    )
     data = dict()
     data['source'] = 'xvideo'
     data['view_numbers'] = str(viewNumber).replace(',', '')

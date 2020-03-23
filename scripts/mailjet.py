@@ -9,7 +9,8 @@ from mailjet_rest import Client
 import configparser
 from util import ConfigSectionMap
 
-## print the success or failure of your calls.
+
+# print the success or failure of your calls.
 def checkStatusCode(result):
     statusCode = result.status_code
     statusCodeDict = {
@@ -31,6 +32,7 @@ def checkStatusCode(result):
     else:
         print('Unknown status code message')
 
+
 def sendMail():
     config = configparser.ConfigParser()
     config.read("config.ini")
@@ -42,8 +44,14 @@ def sendMail():
 
     mailTitle = 'Your email flight plan!2'
     fromName = 'TodayCo'
-    contentText = 'Dear passenger, welcome to Mailjet! May the delivery force be with you!'
-    contentHtml = '<h3>Dear passenger, welcome to Mailjet!</h3><br />May the delivery force be with you!'
+    contentText = (
+        'Dear passenger, welcome to Mailjet!' +
+        'May the delivery force be with you!'
+    )
+    contentHtml = (
+        '<h3>Dear passenger, welcome to Mailjet!</h3>' +
+        '<br />May the delivery force be with you!'
+    )
     recipients = list()
 
     recipients.append({"Email": "youmu257@gmail.com"})
@@ -54,7 +62,7 @@ def sendMail():
     print(fromMail)
     print(recipients)
 
-    mailjetTest = Client(auth = (apiKey, apiSecret))
+    mailjetTest = Client(auth=(apiKey, apiSecret))
     data = {
       'FromEmail': fromMail,
       'FromName': fromName,
@@ -64,9 +72,16 @@ def sendMail():
       'Recipients': recipients
     }
 
+
 recipients = list()
 recipients.append({"Email": "youmu257@gmail.com"})
-contentText = 'Dear passenger, welcome to Mailjet! May the delivery force be with you!'
-contentHtml = '<h3>Dear passenger, welcome to Mailjet!</h3><br />May the delivery force be with you!'
-#sentMail(recipients, contentText, contentHtml)
+contentText = (
+    'Dear passenger, welcome to Mailjet!' +
+    'May the delivery force be with you!'
+)
+contentHtml = (
+    '<h3>Dear passenger, welcome to Mailjet!</h3>' +
+    '<br />May the delivery force be with you!'
+)
+# sentMail(recipients, contentText, contentHtml)
 sentMailTest()
