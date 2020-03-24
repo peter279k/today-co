@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class AvgleSeachType(Enum):
     LastViewed = 'bw'
     Latest = 'mr'
