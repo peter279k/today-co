@@ -8,6 +8,7 @@ from util import unixTime2DateString
 from Enum.avgleSearchType import AvgleSeachType
 from Enum.avgleTimeType import AvgleTimeType
 from database.mysqlConnect import *
+from database.model.pornVideo import *
 
 
 def insertVideoDb(videos):
