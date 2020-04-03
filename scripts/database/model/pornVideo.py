@@ -10,6 +10,8 @@ class PornVideo(BaseModel):
     video_id = CharField()
     view_ratings = CharField()
     video_title = CharField()
+    video_url = CharField()
+    img_url = CharField()
     create_date = DateTimeField()
 
     class Meta:
@@ -28,8 +30,10 @@ def getTopWeeklyPornVideos(top):
 
 
 def getTopDailyPornVideos(top):
+    yesterday = datetime.date.today() - datetime.timedelta(days=1)
+
     return (PornVideo.select()
-            .where(PornVideo.create_date >= datetime.date.today())
+            .where(PornVideo.create_date >= yesterday)
             .order_by(PornVideo.view_ratings.desc())
             .limit(top)
             .namedtuples())

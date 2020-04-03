@@ -26,7 +26,7 @@ class VideoMigration extends AbstractMigration
      * Remember to call "create()" or "update()" and NOT "save()" when working
      * with the Table class.
      */
-    private $tables = [
+    protected $tables = [
         'subscribers', 'porn_videos', 'sites_format'
     ];
 
@@ -62,6 +62,8 @@ class VideoMigration extends AbstractMigration
             ->addColumn('video_id', 'string', array('limit' => $length50, 'comment' => 'xvideo/avgle...'))
             ->addColumn('view_ratings', 'string', array('limit' => $length10, 'comment' => 'the video ratings'))
             ->addColumn('video_title', 'string', array('limit' => $length50, 'comment' => 'the video images title'))
+            ->addColumn('video_url', 'string', array('limit' => $length100, 'comment' => 'the video url'))
+            ->addColumn('img_url', 'string', array('limit' => $length100, 'comment' => 'the video preview image url'))
             ->addColumn('create_date', 'date', array('comment' => 'the date of creating video'))
             ->addIndex(array('video_id'), array('unique' => true))
             ->create();
@@ -76,8 +78,8 @@ class VideoMigration extends AbstractMigration
         $rows = [
             [
               'source'  => 'avgle',
-              'video_url'  => 'avgle.com/video/{video_id}/{video_title}',
-              'video_images'  => 'static.avgle.com/media/videos/tmb2/{video_id}/{image_file_name}'
+              'video_url'  => 'https://avgle.com/video/{video_url}',
+              'video_images'  => 'https://static-clst.avgle.com/videos/{img_url}'
             ],
             [
                 'source'  => 'xvideo',
