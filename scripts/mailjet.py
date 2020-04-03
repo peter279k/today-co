@@ -12,6 +12,7 @@ from Enum.subscribeType import SubscribeType
 from database.mysqlConnect import *
 from database.model.subscribers import *
 from database.model.pornVideo import *
+from database.model.sitesFormat import *
 
 config = configparser.ConfigParser()
 config.read("config.ini")
@@ -63,24 +64,47 @@ def sendMail(recipients, mailContent):
     checkStatusCode(result)
 
 
+def formatMailContent(pornVideoList):
+    global videoUrl, imgUrl
+    template = ('<a href=\'https://{url}\'>{title}</a><br>'
+                '<img src=\'https://{img}\'><br>')
+    content = ''
+    for row in pornVideoList:
+        videoUrl = videoPath.format(video_url=row.video_url)
+        imgUrl = imgPath.format(img_url=row.img_url)
+        content += template.format(
+            url=videoUrl,
+            title=row.video_title,
+            img=imgUrl
+        )
+
+    return content
+
+
 def getTopWeeklyMailContent():
     pornVideoList = getTopWeeklyPornVideos(10)
+
     content = 'This is weekly top 10 video list.<br>'
-    for row in pornVideoList:
-        content += row.video_title+'<br>'
+    content += formatMailContent(pornVideoList)
+
     return content
 
 
 def getTopDailyMailContent():
-    pornVideoList = getTopWeeklyPornVideos(10)
+    pornVideoList = getTopDailyPornVideos(10)
+
     content = 'This is daily top 10 video list.<br>'
-    for row in pornVideoList:
-        content += row.video_title+'<br>'
+    content += formatMailContent(pornVideoList)
+
     return content
 
 
 # initialize MySQL database connection
 connectMysql()
+
+avgleFormats = getSitesFormatBySource('avgle')
+videoPath = avgleFormats[0].video_url
+imgPath = avgleFormats[0].video_images
 
 recipients = {SubscribeType.WEEKLY.value: [], SubscribeType.DAILY.value: []}
 
