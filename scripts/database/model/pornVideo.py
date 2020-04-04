@@ -33,3 +33,9 @@ def getTopDailyPornVideos(top):
             .order_by(PornVideo.view_ratings.desc())
             .limit(top)
             .namedtuples())
+
+
+def insertAndReplace(newVideo):
+    return PornVideo.insert(newVideo)\
+        .on_conflict('replace')\
+        .execute()
