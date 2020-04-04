@@ -3,5 +3,8 @@ cache: pip
 sudo: false
 install:
   - pip install pycodestyle
+  - pip install peewee
 script:
   - pycodestyle .
+  - cd scripts
+  - python -m unittest discover ./test
