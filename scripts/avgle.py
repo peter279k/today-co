@@ -18,6 +18,8 @@ def insertVideoDb(videos):
     newVideo[PornVideo.video_id] = videos['vid']
     newVideo[PornVideo.view_ratings] = videos['framerate']
     newVideo[PornVideo.video_title] = videos['title']
+    newVideo[PornVideo.video_url] = videos['video_url'].split('/', 4)[4]
+    newVideo[PornVideo.img_url] = videos['preview_url'].split('/', 4)[4]
     newVideo[PornVideo.create_date] = unixTime2DateString(videos['addtime'])
 
     PornVideo.insert(newVideo)\

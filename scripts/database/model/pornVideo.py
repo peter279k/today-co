@@ -10,6 +10,8 @@ class PornVideo(BaseModel):
     video_id = CharField()
     view_ratings = CharField()
     video_title = CharField()
+    video_url = CharField()
+    img_url = CharField()
     create_date = DateTimeField()
 
     class Meta:
